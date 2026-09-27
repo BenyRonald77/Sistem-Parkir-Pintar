@@ -1,0 +1,58 @@
+<%- include("../partials/head", { title }) %>
+<%- include("../partials/nav", { currentPath, flash, petugasAktif }) %>
+
+<h1>Kendaraan Masuk</h1>
+<p class="page-intro">Pilih lantai tujuan untuk kendaraan yang baru masuk. Tiket berkode unik dan QR akan dibuat otomatis, tidak perlu login.</p>
+
+<% if (typeof errorPesan !== "undefined" && errorPesan) { %>
+  <div class="alert alert--error" role="alert"><%= errorPesan %></div>
+<% } %>
+
+<% if (tiketBaru) { %>
+  <section class="panel">
+    <h2>Tiket Berhasil Dibuat</h2>
+    <div class="tiket">
+      <img src="<%= tiketBaru.qrDataUrl %>" alt="QR kode tiket <%= tiketBaru.kode_tiket %>" />
+      <div class="tiket__kode"><%= tiketBaru.kode_tiket %></div>
+      <dl>
+        <dt>Lantai</dt>
+        <dd><%= tiketBaru.lantaiNama %></dd>
+        <dt>Waktu masuk</dt>
+        <dd><%= new Date(tiketBaru.waktu_masuk).toLocaleString("id-ID") %></dd>
+      </dl>
+    </div>
+    <div class="btn-row" style="justify-content:center; margin-top: 1rem;">
+      <a class="btn btn--secondary" href="/masuk">Proses Kendaraan Berikutnya</a>
+    </div>
+  </section>
+<% } %>
+
+<% if (!lantai.length) { %>
+  <div class="state-block state-block--error">
+    <h3>Belum ada lantai terdaftar</h3>
+    <p>Kendaraan tidak bisa diproses masuk karena belum ada data lantai. Tambahkan lantai di menu Kelola Lantai &amp; Tarif.</p>
+    <a class="btn btn--primary" href="/lantai">Kelola Lantai &amp; Tarif</a>
+  </div>
+<% } else { %>
+  <section class="panel">
+    <h2>Formulir Kendaraan Masuk</h2>
+    <form method="post" action="/masuk" class="form-grid">
+      <div>
+        <label for="lantai_id">Pilih lantai</label>
+        <select id="lantai_id" name="lantai_id" required>
+          <option value="">-- Pilih lantai --</option>
+          <% lantai.forEach(function (l) { %>
+            <option value="<%= l.id %>" <%= l.slot_terisi >= l.kapasitas_total ? "disabled" : "" %>>
+              <%= l.nama %> (<%= l.slot_terisi %>/<%= l.kapasitas_total %><%= l.slot_terisi >= l.kapasitas_total ? " - PENUH" : "" %>)
+            </option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="btn-row">
+        <button type="submit" class="btn btn--primary">Buat Tiket Masuk</button>
+      </div>
+    </form>
+  </section>
+<% } %>
+
+<%- include("../partials/foot") %>
