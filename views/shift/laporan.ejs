@@ -1,0 +1,83 @@
+<%- include("../partials/head", { title }) %>
+<%- include("../partials/nav", { currentPath, flash, petugasAktif }) %>
+
+<h1>Laporan Pendapatan per Shift</h1>
+<p class="page-intro">Rekap jumlah transaksi dan pendapatan tiap shift petugas. Gunakan filter tanggal untuk mempersempit rentang waktu.</p>
+
+<form method="get" action="/laporan" class="filter-bar">
+  <div class="form-field">
+    <label for="tanggal_mulai">Dari tanggal</label>
+    <input type="date" id="tanggal_mulai" name="tanggal_mulai" value="<%= filter.tanggal_mulai %>" />
+  </div>
+  <div class="form-field">
+    <label for="tanggal_selesai">Sampai tanggal</label>
+    <input type="date" id="tanggal_selesai" name="tanggal_selesai" value="<%= filter.tanggal_selesai %>" />
+  </div>
+  <div class="btn-row">
+    <button type="submit" class="btn btn--primary">Terapkan Filter</button>
+    <% if (filter.tanggal_mulai || filter.tanggal_selesai) { %>
+      <a class="btn btn--secondary" href="/laporan">Hapus Filter</a>
+    <% } %>
+  </div>
+</form>
+
+<% if (!adaDataShiftSamaSekali) { %>
+  <div class="state-block">
+    <h3>Belum ada shift yang pernah dijalankan</h3>
+    <p>Laporan akan terisi setelah petugas mulai dan mengakhiri shift pertama mereka.</p>
+    <a class="btn btn--primary" href="/shift">Buka Halaman Shift</a>
+  </div>
+<% } else if (!baris.length) { %>
+  <div class="state-block">
+    <h3>Tidak ada shift pada rentang tanggal ini</h3>
+    <p>Coba perluas rentang tanggal, atau hapus filter untuk melihat semua shift.</p>
+    <a class="btn btn--secondary" href="/laporan">Hapus Filter</a>
+  </div>
+<% } else { %>
+  <div class="ringkasan-grid">
+    <div class="ringkasan-kartu">
+      <div class="ringkasan-kartu__label">Total transaksi</div>
+      <div class="ringkasan-kartu__nilai"><%= totalTransaksiKeseluruhan %></div>
+    </div>
+    <div class="ringkasan-kartu">
+      <div class="ringkasan-kartu__label">Total pendapatan</div>
+      <div class="ringkasan-kartu__nilai">Rp<%= totalKeseluruhan.toLocaleString("id-ID") %></div>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Petugas</th>
+          <th>Mulai</th>
+          <th>Selesai</th>
+          <th>Status</th>
+          <th>Transaksi</th>
+          <th>Pendapatan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% baris.forEach(function (b) { %>
+          <tr>
+            <td><%= b.namaPetugas %></td>
+            <td><%= new Date(b.waktu_mulai).toLocaleString("id-ID") %></td>
+            <td><%= b.waktu_selesai ? new Date(b.waktu_selesai).toLocaleString("id-ID") : "-" %></td>
+            <td><span class="badge badge--<%= b.status %>"><%= b.status === "aktif" ? "Aktif" : "Selesai" %></span></td>
+            <td class="mono"><%= b.jumlahTransaksi %></td>
+            <td class="mono">Rp<%= b.totalPendapatan.toLocaleString("id-ID") %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4">Total</td>
+          <td class="mono"><%= totalTransaksiKeseluruhan %></td>
+          <td class="mono">Rp<%= totalKeseluruhan.toLocaleString("id-ID") %></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+<% } %>
+
+<%- include("../partials/foot") %>

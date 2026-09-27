@@ -1,0 +1,24 @@
+<%- include("../partials/head", { title }) %>
+<%- include("../partials/nav", { currentPath, flash: flash, petugasAktif: null }) %>
+
+<h1>Mulai Shift</h1>
+<p class="page-intro">Masukkan kode petugas untuk memulai shift. Transaksi kendaraan keluar yang Anda proses akan tercatat di bawah shift ini.</p>
+
+<% if (errorPesan) { %>
+  <div class="alert alert--error" role="alert"><%= errorPesan %></div>
+<% } %>
+
+<section class="panel">
+  <form method="post" action="/shift/mulai" class="form-grid">
+    <div>
+      <label for="kode_petugas">Kode petugas</label>
+      <input type="text" id="kode_petugas" name="kode_petugas" placeholder="Contoh: SIT01" required autofocus />
+      <p class="field-hint">Kode diberikan oleh admin saat pendaftaran petugas.</p>
+    </div>
+    <div class="btn-row">
+      <button type="submit" class="btn btn--primary">Mulai Shift</button>
+    </div>
+  </form>
+</section>
+
+<%- include("../partials/foot") %>

@@ -1,0 +1,28 @@
+<%- include("../partials/head", { title }) %>
+<%- include("../partials/nav", { currentPath, flash, petugasAktif }) %>
+
+<h1>Shift Aktif</h1>
+<p class="page-intro">Shift sedang berjalan untuk <strong><%= petugas.nama %></strong>, dimulai <%= new Date(shift.waktu_mulai).toLocaleString("id-ID") %>.</p>
+
+<div class="ringkasan-grid">
+  <div class="ringkasan-kartu">
+    <div class="ringkasan-kartu__label">Jumlah transaksi shift ini</div>
+    <div class="ringkasan-kartu__nilai"><%= ringkasan.jumlahTransaksi %></div>
+  </div>
+  <div class="ringkasan-kartu">
+    <div class="ringkasan-kartu__label">Total pendapatan shift ini</div>
+    <div class="ringkasan-kartu__nilai">Rp<%= ringkasan.totalPendapatan.toLocaleString("id-ID") %></div>
+  </div>
+</div>
+
+<section class="panel">
+  <h2>Aksi Shift</h2>
+  <div class="btn-row">
+    <a class="btn btn--secondary" href="/keluar">Proses Kendaraan Keluar</a>
+    <form method="post" action="/shift/akhiri" onsubmit="return confirm('Akhiri shift sekarang? Anda perlu memasukkan kode petugas lagi untuk memulai shift baru.');">
+      <button type="submit" class="btn btn--danger">Akhiri Shift</button>
+    </form>
+  </div>
+</section>
+
+<%- include("../partials/foot") %>
