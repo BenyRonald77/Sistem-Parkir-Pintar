@@ -564,19 +564,6 @@ tfoot td {
   color: #7a1a15;
 }
 
-.skeleton-row {
-  height: 44px;
-  border-radius: var(--radius-sm);
-  background: linear-gradient(90deg, #ececea 25%, #f6f6f4 37%, #ececea 63%);
-  background-size: 400% 100%;
-  animation: skeleton-loading 1.4s ease infinite;
-  margin-bottom: 0.6rem;
-}
-@keyframes skeleton-loading {
-  0% { background-position: 100% 50%; }
-  100% { background-position: 0 50%; }
-}
-
 /* ---------- Filter bar (laporan) ---------- */
 
 .filter-bar {
