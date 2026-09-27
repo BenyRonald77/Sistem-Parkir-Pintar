@@ -1,0 +1,48 @@
+<%- include("../partials/head", { title }) %>
+<%- include("../partials/nav", { currentPath, flash, petugasAktif }) %>
+
+<h1>Kendaraan Keluar</h1>
+<p class="page-intro">Masukkan atau pindai kode tiket untuk menghitung tarif dan mencatat transaksi di bawah shift Anda saat ini.</p>
+
+<% if (errorPesan) { %>
+  <div class="alert alert--error" role="alert"><%= errorPesan %></div>
+<% } %>
+
+<% if (hasil) { %>
+  <section class="panel">
+    <h2>Transaksi Selesai</h2>
+    <div class="tiket">
+      <div class="tiket__kode"><%= hasil.kode_tiket %></div>
+      <dl>
+        <dt>Lantai</dt>
+        <dd><%= hasil.lantaiNama %></dd>
+        <dt>Waktu masuk</dt>
+        <dd><%= new Date(hasil.waktu_masuk).toLocaleString("id-ID") %></dd>
+        <dt>Waktu keluar</dt>
+        <dd><%= new Date(hasil.waktu_keluar).toLocaleString("id-ID") %></dd>
+        <dt>Durasi dihitung</dt>
+        <dd><%= hasil.jumlahJam %> jam</dd>
+      </dl>
+      <div class="tarif-total">Rp<%= hasil.tarif.toLocaleString("id-ID") %></div>
+    </div>
+    <div class="btn-row" style="justify-content:center; margin-top: 1rem;">
+      <a class="btn btn--secondary" href="/keluar">Proses Kendaraan Berikutnya</a>
+    </div>
+  </section>
+<% } else { %>
+  <section class="panel">
+    <h2>Formulir Kendaraan Keluar</h2>
+    <form method="post" action="/keluar" class="form-grid">
+      <div>
+        <label for="kode_tiket">Kode tiket</label>
+        <input type="text" id="kode_tiket" name="kode_tiket" placeholder="Contoh: TKT-260927-A1B2C3D4" required autofocus />
+        <p class="field-hint">Ketik kode yang tercetak di bawah QR, atau tempel hasil pindai pemindai QR ke kolom ini.</p>
+      </div>
+      <div class="btn-row">
+        <button type="submit" class="btn btn--primary">Hitung Tarif &amp; Proses Keluar</button>
+      </div>
+    </form>
+  </section>
+<% } %>
+
+<%- include("../partials/foot") %>
