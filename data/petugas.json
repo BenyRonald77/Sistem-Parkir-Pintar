@@ -1,0 +1,17 @@
+[
+  {
+    "id": "p-siti",
+    "nama": "Siti Rahayu",
+    "kode_petugas": "SIT01"
+  },
+  {
+    "id": "p-budi",
+    "nama": "Budi Santoso",
+    "kode_petugas": "BUD02"
+  },
+  {
+    "id": "p-andi",
+    "nama": "Andi Wijaya",
+    "kode_petugas": "AND03"
+  }
+]

@@ -1,0 +1,23 @@
+[
+  {
+    "id": "l-lt1",
+    "nama": "Lantai 1",
+    "kapasitas_total": 40,
+    "slot_terisi": 0,
+    "dibuat_pada": "2026-09-27T04:55:32.271Z"
+  },
+  {
+    "id": "l-lt2",
+    "nama": "Lantai 2",
+    "kapasitas_total": 40,
+    "slot_terisi": 0,
+    "dibuat_pada": "2026-09-27T04:55:32.271Z"
+  },
+  {
+    "id": "l-lt3",
+    "nama": "Lantai 3 (Motor)",
+    "kapasitas_total": 60,
+    "slot_terisi": 0,
+    "dibuat_pada": "2026-09-27T04:55:32.271Z"
+  }
+]

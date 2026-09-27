@@ -94,3 +94,7 @@ bergaya seragam.
 - Tombol aksi utama selalu warna amber solid, tombol sekunder outline navy:
   supaya di layar yang penuh data, mata langsung tahu tombol mana yang harus
   ditekan.
+- Tidak ada toggle mode gelap/terang: warna status hijau/merah harus tampil
+  identik di semua layar dan kondisi cahaya supaya petugas tidak salah baca
+  status kapasitas; satu tema tetap lebih aman daripada dua tema yang harus
+  sama-sama diverifikasi.

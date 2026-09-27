@@ -1,0 +1,103 @@
+<%- include("../partials/head", { title }) %>
+<%- include("../partials/nav", { currentPath, flash, petugasAktif }) %>
+
+<h1>Kelola Lantai &amp; Tarif</h1>
+<p class="page-intro">Atur jumlah lantai parkir beserta kapasitasnya, dan sesuaikan tarif progresif yang berlaku untuk semua transaksi keluar berikutnya.</p>
+
+<section class="panel">
+  <h2>Aturan Tarif Progresif</h2>
+  <% if (!tarifAktif) { %>
+    <div class="state-block state-block--error">
+      <h3>Belum ada aturan tarif aktif</h3>
+      <p>Sistem tidak bisa menghitung tarif keluar tanpa aturan tarif. Jalankan <code>npm run reseed</code> untuk mengisi data awal, atau tambahkan aturan tarif langsung di berkas <code>data/tarif.json</code>.</p>
+    </div>
+  <% } else { %>
+    <form method="post" action="/lantai/tarif/<%= tarifAktif.id %>?_method=PUT" class="form-grid">
+      <div>
+        <label for="tarif_jam_pertama">Tarif jam pertama (Rp)</label>
+        <input type="number" min="0" step="500" id="tarif_jam_pertama" name="tarif_jam_pertama" value="<%= tarifAktif.tarif_jam_pertama %>" required />
+      </div>
+      <div>
+        <label for="tarif_per_jam_berikutnya">Tarif per jam berikutnya (Rp)</label>
+        <input type="number" min="0" step="500" id="tarif_per_jam_berikutnya" name="tarif_per_jam_berikutnya" value="<%= tarifAktif.tarif_per_jam_berikutnya %>" required />
+        <p class="field-hint">Contoh: jam pertama Rp<%= tarifAktif.tarif_jam_pertama.toLocaleString("id-ID") %>, jam ke-2 dan seterusnya Rp<%= tarifAktif.tarif_per_jam_berikutnya.toLocaleString("id-ID") %> per jam.</p>
+      </div>
+      <div class="btn-row">
+        <button type="submit" class="btn btn--primary">Simpan Tarif "<%= tarifAktif.nama %>"</button>
+      </div>
+    </form>
+  <% } %>
+</section>
+
+<section class="panel">
+  <h2>Tambah Lantai Baru</h2>
+  <form method="post" action="/lantai" class="form-grid">
+    <div>
+      <label for="nama">Nama lantai</label>
+      <input type="text" id="nama" name="nama" placeholder="Contoh: Lantai 4" required />
+    </div>
+    <div>
+      <label for="kapasitas_total">Kapasitas total (jumlah slot)</label>
+      <input type="number" id="kapasitas_total" name="kapasitas_total" min="1" step="1" required />
+    </div>
+    <div class="btn-row">
+      <button type="submit" class="btn btn--primary">Tambah Lantai</button>
+    </div>
+  </form>
+</section>
+
+<section class="panel">
+  <h2>Daftar Lantai</h2>
+  <% if (!lantai.length) { %>
+    <div class="state-block">
+      <h3>Belum ada lantai terdaftar</h3>
+      <p>Tambahkan lantai pertama memakai formulir di atas supaya proses kendaraan masuk bisa dijalankan.</p>
+    </div>
+  <% } else { %>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Nama</th>
+            <th>Kapasitas</th>
+            <th>Terisi</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% lantai.forEach(function (l) { %>
+            <tr>
+              <td><%= l.nama %></td>
+              <td class="mono"><%= l.kapasitas_total %></td>
+              <td class="mono"><%= l.slot_terisi %></td>
+              <td>
+                <details>
+                  <summary class="btn btn--secondary" style="min-height: 36px; padding: 0.35rem 0.7rem;">Ubah</summary>
+                  <form method="post" action="/lantai/<%= l.id %>?_method=PUT" class="form-grid" style="margin-top: 0.75rem;">
+                    <div>
+                      <label for="nama-<%= l.id %>">Nama lantai</label>
+                      <input type="text" id="nama-<%= l.id %>" name="nama" value="<%= l.nama %>" required />
+                    </div>
+                    <div>
+                      <label for="kapasitas-<%= l.id %>">Kapasitas total</label>
+                      <input type="number" id="kapasitas-<%= l.id %>" name="kapasitas_total" min="<%= l.slot_terisi %>" value="<%= l.kapasitas_total %>" required />
+                      <p class="field-hint">Tidak boleh kurang dari slot yang sedang terisi (<%= l.slot_terisi %>).</p>
+                    </div>
+                    <div class="btn-row">
+                      <button type="submit" class="btn btn--primary">Simpan Perubahan</button>
+                    </div>
+                  </form>
+                  <form method="post" action="/lantai/<%= l.id %>?_method=DELETE" style="margin-top: 0.5rem;" onsubmit="return confirm('Hapus lantai &quot;<%= l.nama %>&quot;? Tindakan ini tidak bisa dibatalkan.');">
+                    <button type="submit" class="btn btn--danger">Hapus Lantai</button>
+                  </form>
+                </details>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</section>
+
+<%- include("../partials/foot") %>

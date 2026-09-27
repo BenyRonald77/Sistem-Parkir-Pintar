@@ -1,0 +1,19 @@
+{
+  "name": "sistem-parkir-pintar",
+  "version": "1.0.0",
+  "description": "Sistem manajemen parkir: kapasitas realtime, tiket QR, tarif progresif, dan laporan shift petugas",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "reseed": "node scripts/seed.js"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "method-override": "^3.0.0",
+    "qrcode": "^1.5.4",
+    "socket.io": "^4.8.1"
+  }
+}

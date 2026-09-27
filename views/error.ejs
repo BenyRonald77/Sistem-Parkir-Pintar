@@ -1,0 +1,8 @@
+<%- include("partials/head", { title }) %>
+<%- include("partials/nav", { currentPath: "", flash: null, petugasAktif: null }) %>
+<section class="panel panel--error" aria-live="assertive">
+  <h1><%= kode %></h1>
+  <p><%= pesan %></p>
+  <a class="btn btn--primary" href="/">Kembali ke Monitor</a>
+</section>
+<%- include("partials/foot") %>

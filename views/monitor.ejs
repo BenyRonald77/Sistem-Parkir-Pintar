@@ -1,0 +1,39 @@
+<%- include("partials/head", { title }) %>
+<%- include("partials/nav", { currentPath, flash, petugasAktif }) %>
+
+<h1>Monitor Kapasitas Lantai</h1>
+<p class="page-intro">Kapasitas tiap lantai diperbarui otomatis saat ada kendaraan masuk atau keluar. Halaman ini tidak perlu dimuat ulang.</p>
+
+<div class="realtime-indicator" id="realtimeIndicator" data-terhubung="false">
+  <span class="realtime-indicator__dot" aria-hidden="true"></span>
+  <span id="realtimeText">Menghubungkan pembaruan realtime...</span>
+</div>
+
+<div id="lantaiKosong" class="state-block" style="<%= lantai.length ? 'display:none' : '' %>">
+  <h3>Belum ada lantai terdaftar</h3>
+  <p>Tambahkan data lantai parkir terlebih dahulu di menu Kelola Lantai &amp; Tarif.</p>
+  <a class="btn btn--primary" href="/lantai">Kelola Lantai &amp; Tarif</a>
+</div>
+
+<div class="kapasitas-grid" id="kapasitasGrid">
+  <% lantai.forEach(function (l) { %>
+    <div class="kartu-lantai" data-lantai-id="<%= l.id %>" data-status="<%= l.status %>">
+      <div class="kartu-lantai__nama"><%= l.nama %></div>
+      <div class="kartu-lantai__angka">
+        <span class="nilai-terisi"><%= l.slot_terisi %></span><span> / <%= l.kapasitas_total %> slot</span>
+      </div>
+      <div class="level-bar">
+        <div class="level-bar__fill" style="width: <%= l.kapasitas_total > 0 ? Math.min(100, Math.round((l.slot_terisi / l.kapasitas_total) * 100)) : 100 %>%"></div>
+      </div>
+      <div class="status-label">
+        <%= l.status === 'penuh' ? 'PENUH' : (l.status === 'hampir-penuh' ? 'HAMPIR PENUH' : 'TERSEDIA') %>
+      </div>
+    </div>
+  <% }) %>
+</div>
+
+<script>
+  window.__DATA_LANTAI__ = <%- JSON.stringify(lantai) %>;
+</script>
+<script src="/js/monitor.js"></script>
+<%- include("partials/foot") %>

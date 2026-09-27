@@ -1,0 +1,31 @@
+<header class="app-header">
+  <div class="app-header__bar">
+    <a class="app-header__brand" href="/">
+      <span class="brand-mark" aria-hidden="true"></span>
+      Sistem Parkir Pintar
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-utama" id="navToggle">
+      <span class="sr-only">Buka menu navigasi</span>
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+    </button>
+  </div>
+  <nav class="app-nav" id="nav-utama">
+    <a href="/" class="<%= currentPath === '/' ? 'is-active' : '' %>">Monitor</a>
+    <a href="/masuk" class="<%= currentPath === '/masuk' ? 'is-active' : '' %>">Masuk</a>
+    <a href="/keluar" class="<%= currentPath === '/keluar' ? 'is-active' : '' %>">Keluar</a>
+    <a href="/shift" class="<%= currentPath === '/shift' ? 'is-active' : '' %>">Shift</a>
+    <a href="/laporan" class="<%= currentPath === '/laporan' ? 'is-active' : '' %>">Laporan</a>
+    <a href="/lantai" class="<%= currentPath === '/lantai' ? 'is-active' : '' %>">Kelola Lantai &amp; Tarif</a>
+  </nav>
+  <% if (typeof petugasAktif !== "undefined" && petugasAktif) { %>
+    <div class="app-header__shift">
+      Shift aktif: <strong><%= petugasAktif.nama %></strong>
+    </div>
+  <% } %>
+</header>
+<main class="app-main">
+  <% if (typeof flash !== "undefined" && flash) { %>
+    <div class="alert alert--<%= flash.type %>" role="status"><%= flash.message %></div>
+  <% } %>

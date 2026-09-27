@@ -1,0 +1,10 @@
+[
+  {
+    "id": "t-reguler",
+    "nama": "Tarif Reguler",
+    "tarif_jam_pertama": 5000,
+    "tarif_per_jam_berikutnya": 3000,
+    "aktif": true,
+    "diperbarui_pada": "2026-09-27T04:55:32.271Z"
+  }
+]
